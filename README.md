@@ -123,12 +123,13 @@ https://github.com/namickey/spring-boot3-try
 
 以下がインストール済みであること
 * JDK 17
+  * `JAVA_HOME`を環境変数に設定すること
 * gitbash
 * 統合開発環境（vscode or eclipse）
 
 ## 使用するフレームワーク
 
-* spring-boot3.2
+* spring-boot3.4
 * spring-boot-starter-web
 * spring-boot-devtools
 * spring-boot-starter-security
