@@ -16,13 +16,13 @@
         <div>
             <span style="display: inline-block;width: 100px;">ITEM NAME</span>
             <input type="text" th:field="*{itemName}" />
-            <div th:if="${#fields.hasErrors('itemName')}" th:errors="*{itemName}" />
+            <div th:if="${#fields.hasErrors('itemName')}" th:errors="*{itemName}"></div>
         </div>
 
         <div>
             <span style="display: inline-block;width: 100px;">PRICE</span>
             <input type="text" th:field="*{price}" />
-            <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" />
+            <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
         </div>
         <input type="hidden" name="page" value="0" />
         <button type="submit">検索</button>

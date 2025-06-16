@@ -13,20 +13,20 @@
         <div>
             <span style="display: inline-block;width: 100px;">ID</span>
             <input type="text" th:field="*{id}" value="1" />
-            <div th:if="${#fields.hasErrors('id')}" th:errors="*{id}" />
+            <div th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></div>
         </div>
 
         <div>
             <span style="display: inline-block;width: 100px;">ITEM NAME</span>
             <input type="text" th:field="*{itemName}" value="ノート" />
-            <div th:if="${#fields.hasErrors('itemName')}" th:errors="*{itemName}" />
+            <div th:if="${#fields.hasErrors('itemName')}" th:errors="*{itemName}"></div>
         </div>
 
         <div>
             <span style="display: inline-block;width: 100px;">PRICE</span>
             <input type="text" th:field="*{price}" value="3000" />
-            <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" />
-            <div th:if="${#fields.hasErrors('bunguPrice')}" th:errors="*{bunguPrice}" />
+            <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+            <div th:if="${#fields.hasErrors('bunguPrice')}" th:errors="*{bunguPrice}"></div>
         </div>
 
         <div>
@@ -49,7 +49,7 @@
         <div>
             <span style="display: inline-block;width: 100px;">登録日</span>
             <input type="date" th:field="*{registDate}" value="2023-06-01" />
-            <div th:if="${#fields.hasErrors('registDate')}" th:errors="*{registDate}" />
+            <div th:if="${#fields.hasErrors('registDate')}" th:errors="*{registDate}"></div>
         </div>
 
         
