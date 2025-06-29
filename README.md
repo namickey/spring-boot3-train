@@ -122,10 +122,10 @@ https://github.com/namickey/spring-boot3-try
 ## 前提環境
 
 以下がインストール済みであること
-* JDK 17
+* JDK 21
   * `JAVA_HOME`を環境変数に設定すること
-* gitbash
-* 統合開発環境（vscode or eclipse）
+* GitBash
+* 統合開発環境（VSCode）
 
 ## 使用するフレームワーク
 
@@ -457,4 +457,3 @@ https://start.spring.io/
 >
 > 【バックエンド】駆け出しエンジニアが目指すジュニアレベルのエンジニアとは【2024年版】  
 > https://qiita.com/mamimami0709/items/fd6556707e4b924c65ab  
-
