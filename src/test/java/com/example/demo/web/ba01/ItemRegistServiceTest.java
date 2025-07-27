@@ -1,20 +1,26 @@
 package com.example.demo.web.ba01;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DuplicateKeyException;
 
 import com.example.demo.core.exception.AppException;
@@ -22,75 +28,111 @@ import com.example.demo.entity.Item;
 import com.example.demo.web.mapper.ItemMapper;
 
 /**
- * Item登録サービステスト
+ * ItemRegistService テストクラス
  */
-@SpringBootTest
-public class ItemRegistServiceTest {
+@ExtendWith(MockitoExtension.class)
+@DisplayName("ItemRegistService のテスト")
+class ItemRegistServiceTest {
     
-    /** テスト対象、モックをInjectする対象 */
     @InjectMocks
     private ItemRegistService target;
 
-    /** モックマッパー */
     @Mock
     private ItemMapper itemMapper;
 
-    /**
-     * 異常系テスト
-     * 同一ItemNameの合計priceが3000円以上の場合、業務エラー
-     */
-    @Test
-    public void testOverSumPrice() {
-        //準備：モック仕込み
-        List<Item> list = new ArrayList<>();
-        list.add(new Item(1,"ペン", 1000, "CD-A01",LocalDate.now(), 0));
-        list.add(new Item(2,"ペン", 1500, "CD-A01",LocalDate.now(),0));
-        when(itemMapper.findAllByItemName(any())).thenReturn(list);
-        //準備：引数作成
-        Item item = new Item(5,"ペン", 1000, "CD-A01",LocalDate.now(), 0);
-        
-        //テスト対象呼び出し及び例外アサート
-        AppException e = assertThrows(AppException.class, () -> target.registItem(item));
-        //例外メッセージアサート
-        assertEquals("ME001", e.getMessageId());
+    private Item validItem;
+    private LocalDate testDate;
+
+    @BeforeEach
+    void setUp() {
+        testDate = LocalDate.of(2023, 7, 1);
+        validItem = new Item(1, "ペン", 1000, "CD-A01", testDate, 0);
     }
 
-    /**
-     * 異常系テスト
-     * キー重複エラー
-     */
-    @Test
-    public void testDeplicate(){
-        //準備：モック仕込み
-        when(itemMapper.insertItem(any())).thenThrow(DuplicateKeyException.class);
-        //準備：引数作成
-        Item item = new Item(1,"ペン", 1000, "CD-A01",LocalDate.now(), 0);
+    @Nested
+    @DisplayName("正常系テスト")
+    class SuccessTest {
 
-        //テスト対象呼び出し及び例外アサート
-        AppException e = assertThrows(AppException.class, () -> target.registItem(item));
-        //例外メッセージアサート
-        assertEquals("ME004", e.getMessageId());
+        @Test
+        @DisplayName("正常な商品を登録できる")
+        void shouldRegisterItemSuccessfully() {
+            // Given（前提条件）
+            ArgumentCaptor<Item> itemCaptor = ArgumentCaptor.forClass(Item.class);
+            when(itemMapper.findAllByItemName(anyString())).thenReturn(new ArrayList<>());
+            when(itemMapper.insertItem(any(Item.class))).thenReturn(1);
+
+            // When（実行）
+            target.registItem(validItem);
+
+            // Then（検証）
+            verify(itemMapper).insertItem(itemCaptor.capture());
+            Item capturedItem = itemCaptor.getValue();
+            
+            assertThat(capturedItem.getId()).isEqualTo(1);
+            assertThat(capturedItem.getItemName()).isEqualTo("ペン");
+            assertThat(capturedItem.getPrice()).isEqualTo(1000);
+            assertThat(capturedItem.getGroupid()).isEqualTo("CD-A01");
+            assertThat(capturedItem.getRegistDate()).isEqualTo(testDate);
+            assertThat(capturedItem.getVersionNo()).isEqualTo(0);
+        }
+
+        @Test
+        @DisplayName("価格がnullの商品を登録できる")
+        void shouldRegisterItemWithNullPrice() {
+            // Given（前提条件）
+            Item itemWithNullPrice = new Item(2, "ペン", null, "CD-A01", testDate, 0);
+            ArgumentCaptor<Item> itemCaptor = ArgumentCaptor.forClass(Item.class);
+            when(itemMapper.findAllByItemName(anyString())).thenReturn(new ArrayList<>());
+            when(itemMapper.insertItem(any(Item.class))).thenReturn(1);
+
+            // When（実行）
+            target.registItem(itemWithNullPrice);
+
+            // Then（検証）
+            verify(itemMapper).insertItem(itemCaptor.capture());
+            Item capturedItem = itemCaptor.getValue();
+            
+            assertThat(capturedItem.getId()).isEqualTo(2);
+            assertThat(capturedItem.getItemName()).isEqualTo("ペン");
+            assertThat(capturedItem.getPrice()).isNull();
+            assertThat(capturedItem.getGroupid()).isEqualTo("CD-A01");
+            assertThat(capturedItem.getRegistDate()).isEqualTo(testDate);
+            assertThat(capturedItem.getVersionNo()).isEqualTo(0);
+        }
     }
 
-    /**
-     * 正常系テスト
-     */
-    @Test
-    public void testRegist(){
-        //準備：引数作成
-        Item item = new Item(2,"ペン", 1000, "CD-A01",LocalDate.of(2023, 7, 1), 0);
-        //準備：マッパー引数のキャプチャー
-        ArgumentCaptor<Item> capItem = ArgumentCaptor.forClass(Item.class);
-        doReturn(1).when(itemMapper).insertItem(capItem.capture());
+    @Nested
+    @DisplayName("異常系テスト")
+    class ErrorTest {
 
-        //テスト対象呼び出し
-        target.registItem(item);
-        //マッパー引数のキャプチャー結果のアサート
-        assertEquals(2, capItem.getValue().getId());
-        assertEquals("ペン", capItem.getValue().getItemName());
-        assertEquals(1000, capItem.getValue().getPrice());
-        assertEquals("CD-A01", capItem.getValue().getGroupid());
-        assertEquals(LocalDate.of(2023, 7, 1), capItem.getValue().getRegistDate());
-        assertEquals(0, capItem.getValue().getVersionNo());
+        @Test
+        @DisplayName("同一商品名の合計価格が3000円以上の場合、業務エラーとなる")
+        void shouldThrowAppExceptionWhenTotalPriceExceeds3000() {
+            // Given（前提条件）
+            List<Item> existingItems = Arrays.asList(
+                new Item(1, "ペン", 1000, "CD-A01", testDate, 0),
+                new Item(2, "ペン", 1500, "CD-A01", testDate, 0)
+            );
+            Item newItem = new Item(5, "ペン", 1000, "CD-A01", testDate, 0);
+            when(itemMapper.findAllByItemName("ペン")).thenReturn(existingItems);
+
+            // When（実行） & Then（検証）
+            assertThatThrownBy(() -> target.registItem(newItem))
+                .isInstanceOf(AppException.class)
+                .hasFieldOrPropertyWithValue("messageId", "ME001");
+        }
+
+        @Test
+        @DisplayName("キー重複エラーが発生した場合、業務エラーとなる")
+        void shouldThrowAppExceptionWhenDuplicateKeyOccurs() {
+            // Given（前提条件）
+            when(itemMapper.findAllByItemName(anyString())).thenReturn(new ArrayList<>());
+            when(itemMapper.insertItem(any(Item.class))).thenThrow(new DuplicateKeyException("Duplicate key"));
+
+            // When（実行） & Then（検証）
+            assertThatThrownBy(() -> target.registItem(validItem))
+                .isInstanceOf(AppException.class)
+                .hasFieldOrPropertyWithValue("messageId", "ME004");
+        }
     }
 }

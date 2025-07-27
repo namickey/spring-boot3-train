@@ -51,7 +51,7 @@ public class ItemRegistService {
             mapper.insertItem(item);
         } catch (DuplicateKeyException e) {
             // キー重複エラー
-            throw new AppException("ME004", e);
+            throw new AppException("ME004", "id", e);
         }
     }
 }
