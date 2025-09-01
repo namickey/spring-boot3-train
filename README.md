@@ -170,7 +170,7 @@ C:.
 │  │  │              │  ├─handler  例外ハンドラー
 │  │  │              │  │      WebExceptionHandler.java
 │  │  │              │  └─security  認証、認可
-│  │  │              │          DbUserDetailsService.java　　ログイン機能DB `未実装`
+│  │  │              │          DbUserDetailsService.java　　ログイン機能DB
 │  │  │              │          MockUserDetailsService.java　ログイン機能モック
 │  │  │              │          WebSecurityConfig.java       認証、認可設定
 │  │  │              ├─entity
@@ -235,6 +235,8 @@ C:.
 │  │          │      complete.html  完了画面
 │  │          │      confirm.html   確認画面 
 │  │          │      update.html    更新画面
+│  │          ├─common
+│  │          │      navi.html      ナビ領域
 │  │          └─error
 │  │                  403.html      認証認可エラー画面
 │  │                  404.html      Not Foundエラー画面
@@ -343,7 +345,7 @@ https://start.spring.io/
 
 ## アプリケーション共通機能について
 
-業務アプリケーションが備えるべき共通機能（認証認可、エラー処理、コード管理）について概要を示す  
+業務アプリケーションが備えるべき共通機能（認証認可、ナビ領域、エラー処理、コード管理、ヘルスチェック）について概要を示す  
 今回、未実装の機能については、`#未実装`と記載
 
 ### 認証・認可機能
@@ -375,6 +377,14 @@ https://start.spring.io/
   - 認可されていないユーザが直接URLを開くなど、不正にアクセスした場合には、認可エラー画面を表示する
   - ユーザとロールの紐づけをデータベースで管理
   - 組織単位、部署単位の認可制御 `#未実装`
+
+### ナビ領域
+
+* 各画面の上部にナビ領域を表示する
+  - トップ画面へのリンク表示
+  - ログイン中ユーザ名の表示
+  - ログアクトのリンク表示
+  - 各画面の画面名称の表示
 
 ### エラー処理
 
