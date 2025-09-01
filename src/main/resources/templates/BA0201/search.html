@@ -5,9 +5,8 @@
     <title>item照会画面</title>
 </head>
 <body>
-    <h1>item照会画面</h1>
-    <a th:href="@{/}" href="../AA0101/index.html">メニュー画面へ</a>
-    
+    <div th:replace="~{common/navi :: navi('item照会画面')}"><h2>item照会画面</h2></div>
+
     <form method="GET" th:action="@{/WBA0201/search}" action="./search.html" th:object="${itemSearchForm}">
         <div th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}"></div>
         <div>

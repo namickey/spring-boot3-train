@@ -6,19 +6,18 @@
     <link rel="icon" href="/favicon.ico" sizes="32x32">
 </head>
 <body>
-    <h1>メニュー画面</h1>
-    <p>
-        <a th:href="@{/logout}" href="">ログアウト</a>
-    </p>
-
-    itemマスタ管理
-    <ul>
-        <li><a th:href="@{/WBA0101/index}" href="../BA0101/regist.html">item登録画面</a></li>
-        <li><a th:href="@{/WBA0201/index}" href="../BA0201/search.html">item照会画面</a></li>
-        <th:block sec:authorize="hasRole('DATA_MANAGER')">
-            <li><a th:href="@{/WBA0401/index}" href="../BA0401/delete.html">item削除画面</a></li>
-        </th:block>
-    </ul>
+    <div th:replace="~{common/navi :: navi('メニュー画面')}"><h2>メニュー画面</h2></div>
+    
+    <div>
+        <h3>itemマスタ管理</h3>
+        <ul>
+            <li><a th:href="@{/WBA0101/index}" href="../BA0101/regist.html">item登録画面</a></li>
+            <li><a th:href="@{/WBA0201/index}" href="../BA0201/search.html">item照会画面</a></li>
+            <th:block sec:authorize="hasRole('DATA_MANAGER')">
+                <li><a th:href="@{/WBA0401/index}" href="../BA0401/delete.html">item削除画面</a></li>
+            </th:block>
+        </ul>
+    </div>
     
 </body>
 </html>

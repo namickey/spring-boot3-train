@@ -5,8 +5,8 @@
     <title>item更新画面</title>
 </head>
 <body>
-    <h1>item更新画面</h1>
-    <a th:href="@{/}" href="../AA0101/index.html">メニュー画面へ</a>
+    <div th:replace="~{common/navi :: navi('item更新画面')}"><h2>item更新画面</h2></div>
+
     <form method="POST" th:action="@{confirm}" action="./confirm.html" th:object="${itemUpdateForm}">
         <div th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}"></div>
         <div>
