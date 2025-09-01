@@ -10,3 +10,6 @@ insert into item values(9, 'コンパス', 300, 'CD-A01', CURRENT_DATE(), 0);
 insert into item values(10, '消しゴム', 100, 'CD-A01', CURRENT_DATE(), 0);
 insert into item values(11, 'えんぴつ', 100, 'CD-A01', CURRENT_DATE(), 0);
 insert into item values(12, '筆箱', 1000, 'CD-A01', CURRENT_DATE(), 0);
+
+insert into user_info values('root', 'USER,DATA_MANAGER', '$2a$12$dOrsbzXOAt5wL7JRNn5bW.mMzRnxQJZuWMYDMUDfy0QS24XFpJeYO', 'root@xxx', CURRENT_DATE(), 0);
+insert into user_info values('user', 'USER', '$2a$12$dOrsbzXOAt5wL7JRNn5bW.mMzRnxQJZuWMYDMUDfy0QS24XFpJeYO', 'data@xxx', CURRENT_DATE(), 0);

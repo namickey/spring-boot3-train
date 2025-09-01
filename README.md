@@ -46,7 +46,6 @@ https://github.com/namickey/spring-boot3-try
 * 検索結果の各IDリンクから詳細画面へ遷移する
 * 詳細画面ではテーブル項目を表示する
 * 検索サービスクラスに対する単体テスト
-* 詳細サービスクラスに対する単体テスト `未実装`
 
 ### 削除機能について
 以下の機能を実装する
@@ -176,6 +175,7 @@ C:.
 │  │  │              │          WebSecurityConfig.java       認証、認可設定
 │  │  │              ├─entity
 │  │  │              │      Item.java
+│  │  │              │      UserInfo.java
 │  │  │              └─web
 │  │  │                  ├─aa01    TOP画面
 │  │  │                  │      AA0101Controller.java
@@ -204,6 +204,7 @@ C:.
 │  │  │                  │      ItemUpdateService.java
 │  │  │                  └─mapper
 │  │  │                          ItemMapper.java
+│  │  │                          UserInfoMapper.java
 │  │  └─resources
 │  │      │  application.properties
 │  │      │  data-all.sql           SQL（データinsert文）
@@ -214,7 +215,8 @@ C:.
 │  │      │      └─demo
 │  │      │          └─web
 │  │      │              └─mapper
-│  │      │                      ItemMapper.xml    MyBatisのマッパーXML
+│  │      │                      ItemMapper.xml      MyBatisのマッパーXML
+│  │      │                      UserInfoMapper.xml  MyBatisのマッパーXML
 │  │      └─templates
 │  │          │  error.html         システムエラー画面
 │  │          ├─AA0101
@@ -282,6 +284,14 @@ mvnw.cmd spring-boot:run
 > | 詳細画面 | 一般（user）の利用可 |
 > | 削除画面 | データ管理者権限（DATA_MANAGER）のみ利用可 ※`root/root`,`data/data`,`manager/manager`でログイン |
 > | 更新画面 | データ管理者権限（DATA_MANAGER）のみ利用可 ※`root/root`,`data/data`,`manager/manager`でログイン |
+>
+> 本番向けのログイン機能の実装(`DbUserDetailsService`)では、以下の３ユーザが事前登録済みで、ログインできるようにしている。  
+> `root/password` データ管理者権限（DATA_MANAGER）を保有  
+> `user/password`  
+> 
+> 上記の切替方法（モック実装、本番向け実装）は、  
+> * application.propertiesファイルに「web.security.db.auth=true」の場合に本番実装クラスが動作する。  
+> * application.propertiesファイルに「web.security.db.auth=false」の場合にモック実装クラスが動作する。  
 
 ## ブラウザアクセス
 http://localhost:8080/
@@ -353,7 +363,7 @@ https://start.spring.io/
   - 指定時間経過後、またはシステム管理者によるロック解除 `#未実装`
 * 環境毎での認証コンポーネント切り替える
   - アプリケーションプロパティファイルを使い切り替えを行う
-  - 本番環境用の認証コンポーネントではデータベースでのユーザIDとパスワードを管理する `#未実装`  
+  - 本番環境用の認証コンポーネントではデータベースでのユーザIDとロールとパスワードを管理する  
     パスワードはハッシュ化してデータベースに保管する  
     パスワードのハッシュ化には`PBKDF2`という強度が高いハッシュ化モジュールを使用する
   - 開発環境用のログイン機能のモック実装(`MockUserDetailsService`)では、特にユーザ管理は行わず、ユーザIDと同じパスワードで認証を行う
@@ -363,7 +373,7 @@ https://start.spring.io/
   - ロール毎にアクセス可能な画面URLを定義を行い、強い権限を持つシステム管理者ロールを持つユーザだけがアクセスできるシステム管理画面を作成するなどの認可の画面制御を行う
   - 弱い権限しか持たない一般ロールを持つユーザには、システム管理画面への画面リンクを表示しない制御を行う
   - 認可されていないユーザが直接URLを開くなど、不正にアクセスした場合には、認可エラー画面を表示する
-  - ユーザとロールの紐づけをデータベースで管理 `#未実装`
+  - ユーザとロールの紐づけをデータベースで管理
   - 組織単位、部署単位の認可制御 `#未実装`
 
 ### エラー処理
