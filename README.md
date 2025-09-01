@@ -409,6 +409,13 @@ https://start.spring.io/
 * 定数クラスを使ったコード管理 `#enum以外の実現方法`
 * データベースを使ったコード管理 `#enum以外の実現方法`
 
+### ヘルスチェック
+* アプリケーションが正常に動作しているか確認する  
+  `spring-boot-starter-actuator`を使用して実現する  
+  `http://localhost:8080/actuator/health`  
+  上記パスにアクセスし、正常の場合には`{"status":"UP"}`が返却される  
+
+
 > [!NOTE]
 > ## NEXT クラウドへ挑戦してみよう
 > 
