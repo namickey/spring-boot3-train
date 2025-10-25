@@ -425,6 +425,47 @@ https://start.spring.io/
   `http://localhost:8080/actuator/health`  
   上記パスにアクセスし、正常の場合には`{"status":"UP"}`が返却される  
 
+### プロファイル
+`application-prod.properties`のようなプロファイル名`prod`という本番環境用プロファイルの設定ファイルを用意して、  
+Mavenを使用する場合には、コマンドプロンプトで以下プロファイルを指定して起動する。  
+```
+コマンドプロンプトで実行
+mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=prod
+```
+`application-prod.properties`に記載した設定が`application.properties`よりも優先されて読み込まれる。  
+
+Mavenを使用しない場合には、以下のようにプロファイルを指定して起動する。  
+```
+ビルド
+mvnw.cmd package -Dmaven.test.skip=true
+
+起動（本番プロファイル指定）
+java -jar target/demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
+```
+
+
+### 環境変数
+`application.properties`や`application-prod.properties`に本番環境のパスワードを記載したくないという場合、環境変数を使うことが可能  
+環境変数で設定値を上書きしたい場合には、変数名をドット区切りではなく、アンダーバー区切りにして設定する。
+```properties
+application.propertiesやapplication-prod.propertiesの記載例：ドット区切り
+spring.datasource.password=admin
+```
+```env
+環境変数の記載例：アンダーバー区切り
+spring_datasource_password=admin
+```
+
+```
+コマンドプロンプトで実行
+set spring_datasource_password=admin
+mvnw.cmd spring-boot:run
+
+コマンドプロンプトで実行（本番環境プロファイルを指定）
+set spring_datasource_password=admin
+mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=prod
+```
+
 
 > [!NOTE]
 > ## NEXT クラウドへ挑戦してみよう
