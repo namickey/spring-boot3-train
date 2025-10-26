@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.core.exception.AppException;
-import com.example.demo.core.exception.SystemException;
 import com.example.demo.entity.Item;
 import com.example.demo.web.mapper.ItemMapper;
 
@@ -48,7 +47,7 @@ public class ItemRegistService {
             totalPrice += item2.getPrice();
         }
         if (totalPrice >= 3000) {
-            throw new SystemException("ME001");
+            throw new AppException("ME001");
         }
 
         try {
