@@ -13,6 +13,9 @@ sudo -u ec2-user git clone https://github.com/namickey/spring-boot3-train.git
 # cd
 cd /home/ec2-user/spring-boot3-train
 
+# checkout aws branch
+sudo -u ec2-user git checkout aws
+
 # chmod
 chmod 755 mvnw
 
