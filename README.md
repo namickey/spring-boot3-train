@@ -91,6 +91,13 @@ https://github.com/namickey/spring-boot3-try
 > Spring Frameworkを利用する実プロジェクトで活用できる設計・開発標準  
 > https://fintan.jp/page/5311/  
 > https://github.com/Fintan-contents/spring-sample-project/tree/main/sourcecode/web  
+> 
+> システム方式設計書の書き方（TIS社の公開資料を引用しながら解説）  
+> https://qiita.com/otomaru97/items/aa4789ef501148a12808  
+
+> [!TIP]
+> 楽観的ロックの実装方法をわかりやすく解説  
+> https://aakel-digital.com/blog/Optimistic-Lock  
 
 ## アプリケーション構成
 
@@ -128,14 +135,17 @@ https://github.com/namickey/spring-boot3-try
 
 ## 使用するフレームワーク
 
-* spring-boot3.4
+* spring-boot3.5
 * spring-boot-starter-web
 * spring-boot-devtools
-* spring-boot-starter-security
 * spring-boot-starter-validation
+* spring-boot-starter-actuator
+* spring-boot-starter-security
+* thymeleaf-extras-springsecurity6
 * thymeleaf
 * mybatis
 * spring-data-commons
+* logback-access-tomcat
 * lombok
 * 組み込みH2データベース
 * 組み込みTomcat 10
@@ -329,9 +339,23 @@ https://start.spring.io/
 ![initializr](initializr.png)
 2. mavenのpom.xmlに不足している依存を追加する
 ```xml
+		<!-- ページング関連 -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-commons</artifactId>
+		</dependency>
+
+		<!-- アクセスログ -->
+		<dependency>
+			<groupId>ch.qos.logback.access</groupId>
+			<artifactId>logback-access-tomcat</artifactId>
+			<version>2.0.7</version>
+		</dependency>
+
+		<!-- Actuator（ヘルスチェック） -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 ```
 3. 統合開発環境を使って、今動かしたソースコードと同じものを実装し、動作確認する
@@ -525,3 +549,28 @@ mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=prod
 >
 > 【バックエンド】駆け出しエンジニアが目指すジュニアレベルのエンジニアとは【2024年版】  
 > https://qiita.com/mamimami0709/items/fd6556707e4b924c65ab  
+> 
+> 「Postgres で試した？」と聞き返せるようになるまでもしくはなぜ私は雰囲気で技術を語るのか？ — Just use Postgres 読書感想文  
+> https://syu-m-5151.hatenablog.com/entry/2025/11/25/135220  
+
+> [!TIP]
+> ## 履歴管理で考えるべきこと
+> 
+> 履歴データの管理方法を考える  
+> https://zenn.dev/ssfuno/articles/f977c5053e8e28  
+> 
+> RDBにおけるよくある履歴管理のパターンについてまとめてみた  
+> https://zenn.dev/tcf775/articles/dc0d17917b9389  
+> 
+> kawasima 履歴を持つデータの設計  
+> https://speakerdeck.com/kawasima/lu-li-wochi-tudetafalseshe-ji  
+> 
+> Soudai 失敗から学ぶ、RDBの正規化の話  
+> https://soudai.hatenablog.com/entry/learn-from-failure-1  
+> 
+> 【随時更新】テーブル設計でミスらないために確認したいアンチパターン  
+> https://qiita.com/WebEngrChild/items/4fd38ade334a46629233  
+>
+> RDBのデータモデリング・テーブル設計の際に参考にしている考え方と資料  
+> https://qiita.com/rebi/items/965120db0d8a44bb103d  
+> 
