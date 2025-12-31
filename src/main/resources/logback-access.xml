@@ -3,7 +3,7 @@
     <property name="LOG_DIR" value="logs"/>
     <!-- 共通パターン -->
     <property name="PATTERN"
-              value="%date{ISO8601} ACC -     %-32S %-7reqAttribute{userId} %-4m %s %U [%D]"/>
+              value="%date{ISO8601} %-15a ACC -     %-32S %-7reqAttribute{userId} %-4m %s %U [%D]"/>
     
     <!-- ローリングファイル -->
     <appender name="ACCESS_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">

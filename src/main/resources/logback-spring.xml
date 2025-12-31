@@ -11,7 +11,7 @@
 
     <!-- 共通パターン -->
     <property name="PATTERN"
-              value="%date{ISO8601} APP %-5level %X{jsessionId:-} %X{userId} %msg %X{traceId:-} %n"/>
+              value="%date{ISO8601} %-15X{remoteIp:-} APP %-5level %X{jsessionId:-} %X{userId} %msg %X{traceId:-} %n"/>
 
     <!-- コンソール（開発向け：色付き） -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
